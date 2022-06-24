@@ -138,3 +138,105 @@ k개의 샘플 한번에 처리할수있다
 
 
 (Row,column,value,dimension)
+
+
+
+### Typical Tensor shape : computer vision (grayscale)
+
+<img src="/Users/krc/Library/Application Support/typora-user-images/image-20220624135139890.png" alt="image-20220624135139890" style="zoom:50%;" />
+
+> White
+
+<img src="/Users/krc/Library/Application Support/typora-user-images/image-20220624135216924.png" alt="image-20220624135216924" style="zoom:50%;" />
+
+
+
+
+
+
+
+>  이미지가 여러장 쌓여있다
+>
+> **|x|= (num of imgs, h, w)** ==> gray scale
+>
+> 그레이스케일 x 를 => y = f(x) 형태의 NN에 대입 
+
+
+
+### Typical Tensor shape : computer vision (color)
+
+
+
+<img src="/Users/krc/Library/Application Support/typora-user-images/image-20220624135550909.png" alt="image-20220624135550909" style="zoom:50%;" />
+
+<img src="/Users/krc/Library/Application Support/typora-user-images/image-20220624140524375.png" alt="image-20220624140524375" style="zoom:50%;" />
+
+<img src="/Users/krc/Library/Application Support/typora-user-images/image-20220624140603249.png" alt="image-20220624140603249" style="zoom:50%;" />
+
+> RGB
+>
+> **|x|=(num of img , num of channels , hight , weight )** 4차원
+>
+> i번째 이미지 (한장의 이미지를 볼 경우)=> **|xi|= (num of channels, hight, weight)**
+
+
+
+
+
+####  Tensor + Vector
+
+<img src="/Users/krc/Library/Application Support/typora-user-images/image-20220624165203123.png" alt="image-20220624165203123" style="zoom:50%;" />
+
+~~~python
+x = torch.FloatTensor([[1, 2]])
+y = torch.FloatTensor([[3],
+                       [5]])
+
+print(x.size())
+print(y.size())
+
+***
+#torch.Size([2, 2])
+#torch.Size([2])
+~~~
+
+~~~python
+z = x + y
+print(z)
+print(z.size())
+
+***
+#tensor([[ 4.,  7.],
+#        [ 7., 13.]])
+#torch.Size([2, 2])
+~~~
+
+
+
+
+
+<img src="/Users/krc/Library/Application Support/typora-user-images/image-20220624165529770.png" alt="image-20220624165529770" style="zoom:50%;" />
+
+~~~python
+x = torch.FloatTensor([[[1, 2]]])
+y = torch.FloatTensor([3,
+                       5])
+
+print(x.size())
+print(y.size())
+
+***
+#torch.Size([1, 1, 2])
+#torch.Size([2])
+~~~
+
+~~~python
+z = x + y
+print(z)
+print(z.size())
+
+***
+#tensor([[[4., 7.]]])
+#torch.Size([1, 1, 2])
+~~~
+
