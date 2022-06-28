@@ -240,3 +240,6 @@ print(z.size())
 #torch.Size([1, 1, 2])
 ~~~
 
+
+
+![image-20220624183349106](/Users/krc/Documents/TIL/image-20220624183349106.png)
