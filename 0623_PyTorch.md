@@ -1,3 +1,7 @@
+
+
+
+
 # PyThorch
 
 - 장점:
@@ -222,7 +226,7 @@ x = torch.FloatTensor([[[1, 2]]])
 y = torch.FloatTensor([3,
                        5])
 
-print(x.size())
+print(x.size())z
 print(y.size())
 
 ***
@@ -242,4 +246,414 @@ print(z.size())
 
 
 
+### Tensor +Tensor
+
+
+
+~~~python
+x = torch.FloatTensor([[1, 2]])
+y = torch.FloatTensor([[3],
+                       [5]])
+
+print(x.size())
+print(y.size())
+
+***
+#torch.Size([1, 2])
+#torch.Size([2, 1])
+~~~
+
+~~~python
+z = x + y
+print(z)
+print(z.size())
+
+***
+#tensor([[4., 5.],
+#        [6., 7.]])
+#torch.Size([2, 2])
+~~~
+
+<img src="/Users/krc/Documents/TIL/image-20220629144325809.png" alt="image-20220629144325809" style="zoom:50%;" />
+
+> 복사해서 더한다.
+
+> **Note that you need to be careful before using broadcast feature.**
+
+
+
+### Failure Case
+
+브로드캐스트가 적용이 안되는 사례
+
+Extand사용해라
+
+~~~python
+x = torch.FloatTensor([[[1, 2],
+                        [4, 8]]])
+y = torch.FloatTensor([[1, 2, 3],
+                       [4, 5, 6],
+                       [7, 8, 9]])
+
+print(x.size())
+print(y.size())
+
+z = x + y
+***
+#torch.Size([1, 2, 2])
+#torch.Size([3, 3])
+~~~
+
+
+
+
+
+>  04-06-PyTorch Tensor Manipulations
+
+## PyTorch Tensor Manipulations
+
+~~~ python
+import torch
+
+~~~
+
+
+
+### Tensor Shaping
+
+#### reshape Function: Change Tensor Shape
+
+Reshape( 내가 원하는 tensor 의 size )
+
+
+
+~~~
+print(x.reshape(12)) # 12 = 3 * 2 * 2 # 차원이 하나인 벡터
+print(x.reshape(-1)) # 결과같은데 편함
+~~~
+
+<img src="/Users/krc/Documents/TIL/image-20220629145418870.png" alt="image-20220629145418870" style="zoom:50%;" />
+
+
+
+
+
+~~~python
+# size 같으므로 차원 상관없음
+
+print(x.reshape(3, 4)) # 3 * 4 = 3 * 2 * 2
+print(x.reshape(3, -1)) # 동일한 결과 # 만약 12로 나눠지지 않는 숫자면 erorr # -1 은 한번만 쓴다
+~~~
+
+
+
+<img src="/Users/krc/Documents/TIL/image-20220629145503551.png" alt="image-20220629145503551" style="zoom:50%;" />
+
+~~~python
+print(x.reshape(3, 1, 4)) 
+print(x.reshape(-1, 1, 4)) # -1 부분 "알아서 채워~"
+~~~
+
+
+
+<img src="/Users/krc/Documents/TIL/image-20220629145936645.png" alt="image-20220629145936645" style="zoom:50%;" />
+
+~~~python
+print(x.reshape(3, 2, 2, 1)) #4차원
+~~~
+
+<img src="/Users/krc/Documents/TIL/image-20220629150117772.png" alt="image-20220629150117772" style="zoom: 50%;" />
+
+
+
+> Contaiguous(같은 메모리로 re alocation) + view =reshape
+>
+> View 코드 를 보면 reshape과 같은것이다
+
+
+
+
+
+#### squeeze: Remove dimension which has only one element.
+
+
+
+특정 원소가 1개인 차원 삭제
+
+~~~python
+x = torch.FloatTensor([[[1, 2],
+                        [3, 4]]])
+print(x.size())
+
+***
+#torch.Size([1, 2, 2]) 뒤의 2, 2  차원만 살아남을 예정
+~~~
+
+>  Remove any dimension which has only one element. 
+
+~~~python
+print(x.squeeze()) #짰다... 1만있는 차원 삭제됨
+print(x.squeeze().size()) # 차원확인
+***
+#tensor([[1., 2.],
+#        [3., 4.]])
+#torch.Size([2, 2]) 		# 2,2 살아있다
+~~~
+
+> Remove certain dimension, if it has only one element.
+>
+> If it is not, there would be no change.
+
+
+
+특정 dimension 에 대해서만 짤수있다!
+
+~~~~python
+print(x.squeeze(0).size())
+print(x.squeeze(1).size())
+
+***
+#torch.Size([2, 2])
+#torch.Size([1, 2, 2])
+~~~~
+
+
+
+
+
+#### unsqueeze: Insert dimension at certain index.
+
+차원인덱스 생성
+
+~~~python
+x = torch.FloatTensor([[1, 2],
+                       [3, 4]])
+print(x.size())
+***
+#torch.Size([2, 2])
+~~~
+
+~~~python
+print(x.unsqueeze(2))
+print(x.unsqueeze(-1))
+print(x.reshape(2, 2, -1))
+***
+tensor([[[1.],
+         [2.]],
+
+        [[3.],
+         [4.]]])
+tensor([[[1.],
+         [2.]],
+
+        [[3.],
+         [4.]]])
+tensor([[[1.],
+         [2.]],
+
+        [[3.],
+         [4.]]])
+~~~
+
+
+
+
+
+> 04-07-tensor_slicing_and_concat
+
+## Slicing and Concatenation
+
+
+
+### Indexing and Slicing
+
+타겟준비
+
+~~~python
+x = torch.FloatTensor([[[1, 2],
+                        [3, 4]],
+                       [[5, 6],
+                        [7, 8]],
+                       [[9, 10],
+                        [11, 12]]])
+print(x.size())
+***
+#torch.Size([3, 2, 2])
+~~~
+
+<img src="/Users/krc/Documents/TIL/image-20220629155636454.png" alt="image-20220629155636454" style="zoom:50%;" />
+
+
+
+~~~python
+# 빨강
+print(x[0])
+print(x[0, :])
+print(x[0, :, :])
+
+***
+#tensor([[1., 2.],
+#        [3., 4.]])
+#tensor([[1., 2.],
+#        [3., 4.]])
+#tensor([[1., 2.],
+#        [3., 4.]])
+~~~
+
+~~~python
+#파랑
+print(x[-1])
+print(x[-1, :])
+print(x[-1, :, :])
+***
+#tensor([[ 9., 10.],
+#        [11., 12.]])
+#tensor([[ 9., 10.],
+#        [11., 12.]])
+#tensor([[ 9., 10.],
+#        [11., 12.]])
+~~~
+
+~~~python
+#초록
+print(x[:, 0, :])
+***
+#tensor([[ 1.,  2.],
+#        [ 5.,  6.],
+#        [ 9., 10.]])
+~~~
+
+<img src="/Users/krc/Documents/TIL/image-20220629155923273.png" alt="image-20220629155923273" style="zoom:50%;" />
+
+
+
+**range**로도 자를수 있다
+
+- Range 특: 해당 dimension 사라진다
+
+>  Access by range. Note that the number of dimensions would not be changed. 차원바뀌지 않는다
+
+~~~python
+print(x[1:3, :, :].size())
+print(x[:, :1, :].size())
+print(x[:, :-1, :].size())
+***
+#torch.Size([2, 2, 2])
+#torch.Size([3, 1, 2])
+#torch.Size([3, 1, 2])
+~~~
+
+<img src="/Users/krc/Documents/TIL/image-20220629165055818.png" alt="image-20220629165055818" style="zoom:50%;" />
+
+
+
+### split: Split tensor to desirable shapes
+
+특정 **사이즈**로 쪼개기
+
+
+
+~~~python
+x = torch.FloatTensor(10, 4)
+
+splits = x.split(4, dim=0) # 0번 dimension이 4가 되도록 쪼개라 (남은건 알아서~)
+for s in splits:
+    print(s.size())
+
+***
+#torch.Size([4, 4])
+#torch.Size([4, 4])
+#torch.Size([2, 4])
+~~~
+
+<img src="/Users/krc/Documents/TIL/image-20220629173533507.png" alt="image-20220629173533507" style="zoom:50%;" />
+
+
+
+### chunk: Split tensor to number of chunks
+
+**개수**로 쪼갠다
+
+
+
+~~~python
+x = torch.FloatTensor(8, 4)
+
+chunks = x.chunk(3, dim=0) 
+
+for c in chunks:
+    print(c.size())
+    
+***
+#torch.Size([3, 4])
+#torch.Size([3, 4])
+#torch.Size([2, 4])
+~~~
+
+<img src="/Users/krc/Documents/TIL/image-20220629174118146.png" alt="image-20220629174118146" style="zoom:50%;" />
+
+### index_select: Select elements by using dimension index
+
+
+
+~~~python
+x = torch.FloatTensor([[[1, 1],
+                        [2, 2]],
+                       [[3, 3],
+                        [4, 4]],
+                       [[5, 5],
+                        [6, 6]]])
+indice = torch.LongTensor([2, 1])
+
+print(x.size())
+***
+#torch.Size([3, 2, 2])
+~~~
+
+<img src="/Users/krc/Documents/TIL/image-20220629174613700.png" alt="image-20220629174613700" style="zoom:50%;" />
+
+~~~python
+y = x.index_select(dim=0, index=indice)
+
+print(y)
+print(y.size())
+***
+#tensor([[[5., 5.],
+#         [6., 6.]],
+#
+#        [[3., 3.],
+#         [4., 4.]]])
+#torch.Size([2, 2, 2])
+~~~
+
+<img src="/Users/krc/Documents/TIL/image-20220629174740829.png" alt="image-20220629174740829" style="zoom:50%;" />
+
+### cat: Concatenation of multiple tensors in the list
+
+
+
+~~~~python
+x = torch.FloatTensor([[1, 2, 3],
+                       [4, 5, 6],
+                       [7, 8, 9]])
+y = torch.FloatTensor([[10, 11, 12],
+                       [13, 14, 15],
+                       [16, 17, 18]])
+
+print(x.size(), y.size())
+***
+#torch.Size([3, 3]) torch.Size([3, 3])
+~~~~
+
+
+
+
+
+
+
 ![image-20220624183349106](/Users/krc/Documents/TIL/image-20220624183349106.png)
+
+
+
+
+
