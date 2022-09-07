@@ -24,8 +24,6 @@ Kubernetes minikube
 
 - CPU : multicore
 
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1cdba5a0-4ba4-4e88-86c7-bcf59d53f12c/Untitled.png)
-
   - VM 생성 이후 **demo 용 머신 우클릭 → 설정 → 시스템 → 프로세서 → cpu 3개 이상으로 변경**
 
 - Disk: 40 GB 이상
@@ -139,11 +137,11 @@ kubectl version
 
 - 다음과 같은 화면이 출력되며, 필요한 docker image 들을 다운받게 되고, 다운로드가 완료되면 이를 기반으로 minikube 를 구동합니다.
 
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1c24deb7-6f14-47ec-8606-8445220b6525/Untitled.png)
+  <img width="879" alt="image" src="https://user-images.githubusercontent.com/98302106/188769557-3142d01c-2308-45a8-abd3-5cd5664e7e26.png">
 
 - 정상적으로 `minikube start` 가 완료되면 다음과 같은 메시지가 출력됩니다.
 
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4e9bca7f-e159-40b5-9f00-53b1b404d378/Untitled.png)
+  
 
 ### minikube status
 
@@ -208,5 +206,5 @@ minikube delete
 
 ------
 
-> 여기까지 정상적으로 동작하는 걸 확인하셨다면 이제 반은 왔습니다! 
+
 
