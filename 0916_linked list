@@ -1,0 +1,65 @@
+# 0916_ linked list
+# 자료구조 구현 - 내장함수 쓰지말기
+# 출처:
+# https://blex.me/@baealex/%ED%8C%8C%EC%9D%B4%EC%8D%AC%EC%9C%BC%EB%A1%9C-%EA%B5%AC%ED%98%84%ED%95%9C-%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-%EC%97%B0%EA%B2%B0-%EB%A6%AC%EC%8A%A4%ED%8A%B8
+
+# 길이가 정해진 리스트 생성
+# listA=[]
+# listB=[0 for i in range(n)] # list길이 지정하고 0으로 초기화할때
+# matrixC= [[0 for col in range(n) for row in range(n)]] # 2차원배열 생성, 0초기화
+
+# 포인터
+class Node:
+    def __init__( self, data):
+        self.data= data
+        self.next= None
+
+#참조하기 
+head = Node(5) 
+next_node =Node(10)
+head.next= next_node
+
+#단순연결 리스트
+# 첫번째 노드 - 중간 노드 - 마지막 노드 - 노드 삭제 - 노드 탐색
+
+# 리스트 클래스 생성하기
+class linked_list:
+    def __init__ (self,data):
+        new_node =Node(data)
+        self.data= new_node
+        self.list_size = 1
+
+# 첫번째 노드 삽입 
+    def first(self,data):
+        new_node = Node(data)
+        temp_node = self.data      # 기존 헤드 잠시 보관
+        self.head =new_node        # 헤드 새로운 노드로 변경
+        self.head.next = temp_node # 헤더 교체 # 새 헤드 링크로 변경
+        self.list_size += 1
+
+
+# 노드 선택 : 인덱스 번호로 노드선택
+    def select_node(self,num):
+        if self.list_size < num:
+            return # overflow
+        node = self.head
+        count =0
+        while count < num :
+            node = node.next
+            count += 1
+        return node
+
+# 중간노드
+    def middle(self,num,data):
+        if self.head.next == None:
+        # 헤더가 만들어진 직후 메서드를 사용하는경우
+            last(data)
+            return
+        node = self.select_node(num)
+        new_node = Node(data)
+        temp_next = node.next
+        node.next= new_node
+    
+
+ # 마지막 노드
+    def last(self,)   
